@@ -1,0 +1,30 @@
+normals_estimation:
+  max_radius: 1.0
+  max_nn: 30
+
+orth_planes_extraction:
+  min_clust_size: 10
+  affinity: "cosine"
+  dist_threshold: 1.0e-1
+
+  from_pc: "first"  # "middle"
+  downsample:
+    use: True
+    voxel_size: 1.5
+    upsample: False
+
+# planes_extraction:
+planes_segmentation:
+  algo: "svd_filter"
+  # algo: "spvcnn"
+
+  # spvcnn:
+  #   voxel_size: 0.05
+  # svd_filter:
+
+metrics:
+  mom:
+    min_nn: 6
+    input: "whole"  # "planes"
+  mean_map_metric:
+    min_nn: 6
