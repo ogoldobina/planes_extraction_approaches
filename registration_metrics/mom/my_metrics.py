@@ -17,7 +17,7 @@ from ..types import (
     _to_np
 )
 
-__all__ = ["aggregate_map", "mme", "mpv", "mom", "rpe", "mom_min_nn"]
+__all__ = ["aggregate_map", "mme", "mpv", "mom", "rpe"]
 
 
 def aggregate_map(

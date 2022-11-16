@@ -60,8 +60,8 @@ def get_model(model_name: str = "spvcnn") -> torch.nn.Module:
         model = SPVCNN(num_classes=3, cr=0.5, pres=0.05, vres=0.05)
 
         params = torch.load(
-            f"{spvnas_dir}/experiments/spvcnn-planes-and-ground--cr=0.5-"
-            "pretrained=True/checkpoints/step-13620.pt",
+            f"{spvnas_dir}/spvcnn-planes-and-ground--cr=0.5-"
+            "pretrained=True/max-iou-test.pt",
             map_location=torch.device('cpu')
         )['model']
 
@@ -70,9 +70,8 @@ def get_model(model_name: str = "spvcnn") -> torch.nn.Module:
         model = SPVCNN(num_classes=3, cr=0.25, pres=0.05, vres=0.05)
 
         params = torch.load(
-            f"{spvnas_dir}/experiments"
-            "/CARLA-spvcnn-planes-and-ground--cr=0.25-pretrained=False-v2"
-            "/checkpoints/"
+            f"{spvnas_dir}/"
+            "CARLA-spvcnn-planes-and-ground--cr=0.25-pretrained=False-v2/"
             "max-iou-test.pt",
             map_location=torch.device('cpu')
         )['model']

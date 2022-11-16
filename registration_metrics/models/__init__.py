@@ -1,1 +1,1 @@
-from spvcnn import *
+from .spvcnn import *

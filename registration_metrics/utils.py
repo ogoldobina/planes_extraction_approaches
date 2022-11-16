@@ -1,6 +1,5 @@
 import os
 import copy
-import glob
 import random
 
 import numpy as np
@@ -17,14 +16,11 @@ import open3d as o3d
 
 # Import local code
 from .types import PointCloud, PointCloudType, _to_np
-from .data_utils import parse_calibration, parse_poses
-from paths import plane_kitti_dir
 
 
 __all__ = [
     "seed_everything",
     "sparse_quantize",
-    "read_data",
     "transform_pcd",
     "T_add_translation",
     "prepare_src_tgt_poses",
@@ -84,43 +80,6 @@ def sample_planes(cld, plane_mask, voxel_size=1, return_idx=False):
         return samples, idx_sample
     
     return output
-
-
-def read_data(*, n_pairs=50, start=0, step=3, data=plane_kitti_dir, label_subdir='labels', return_all=False):
-    """Reads data from disk."""
-    # Find all needed files
-    cld_files = sorted(glob.glob(os.path.join(data, 'velodyne', '*.bin')))
-    lbl_files = sorted(glob.glob(os.path.join(data, label_subdir, '*.npy')))
-    poses_file = os.path.join(data, 'poses.txt')
-    calib_file =  os.path.join(data, 'calib.txt')
-
-    # Read calibration and poses
-    calibration = parse_calibration(calib_file)
-    poses = parse_poses(poses_file, calibration)[start:start + n_pairs + step]
-
-    # Read point clouds
-    clds = [np.fromfile(file, dtype=np.float32).reshape(-1, 4)
-            for file in cld_files[start:start + n_pairs + step]]
-
-    # Read labels
-    lbls = [np.load(file).astype(np.int32) for file in lbl_files[start:start + n_pairs + step]]              
-
-    result = EasyDict(
-        calibration=calibration,
-        poses=poses,
-        clds=clds,
-        lbls=lbls
-    )
-
-    if return_all:
-        result.update(
-            cld_files=cld_files,
-            lbl_files=lbl_files,
-            poses_file=poses_file,
-            calib_file=calib_file
-        )
-    
-    return result
 
 
 def transform_pcd(pcd: PointCloudType, transformation: NDArray[Shape["4, 4"], Float]):
